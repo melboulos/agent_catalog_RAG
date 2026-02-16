@@ -1,0 +1,80 @@
+-- ==============================================
+-- Couchbase Indexes for QA and Audit Logs Collections
+-- Bucket: agent_catalog
+-- Scope: agent_scope
+-- Collections: qa, audit_logs
+-- All indexes created deferred, then built together
+-- Checks if they exist before creating
+-- ==============================================
+
+-- ==========================
+-- QA Collection Indexes
+-- ==========================
+
+-- 1️⃣ Primary index on QA
+CREATE PRIMARY INDEX IF NOT EXISTS `qa_primary_idx`
+ON `agent_catalog`.`agent_scope`.`qa`
+WITH { "defer_build": true };
+
+-- 2️⃣ Secondary index on questions field
+CREATE INDEX IF NOT EXISTS `qa_questions_idx`
+ON `agent_catalog`.`agent_scope`.`qa`(`questions`)
+WITH { "defer_build": true };
+
+-- 3️⃣ Secondary index on metadata
+CREATE INDEX IF NOT EXISTS `qa_metadata_idx`
+ON `agent_catalog`.`agent_scope`.`qa`(`metadata`)
+WITH { "defer_build": true };
+
+-- ==========================
+-- Audit Logs Collection Indexes
+-- ==========================
+
+-- 4️⃣ Primary index on audit_logs
+CREATE PRIMARY INDEX IF NOT EXISTS `audit_primary_idx`
+ON `agent_catalog`.`agent_scope`.`audit_logs`
+WITH { "defer_build": true };
+
+-- 5️⃣ Secondary index on timestamp
+CREATE INDEX IF NOT EXISTS `audit_ts_idx`
+ON `agent_catalog`.`agent_scope`.`audit_logs`(`ts`)
+WITH { "defer_build": true };
+
+-- 6️⃣ Secondary index on source
+CREATE INDEX IF NOT EXISTS `audit_source_idx`
+ON `agent_catalog`.`agent_scope`.`audit_logs`(`source`)
+WITH { "defer_build": true };
+
+-- 7️⃣ Composite index: timestamp + source
+CREATE INDEX IF NOT EXISTS `audit_ts_source_idx`
+ON `agent_catalog`.`agent_scope`.`audit_logs`(`ts`, `source`)
+WITH { "defer_build": true };
+
+-- 8️⃣ Optional: threshold index
+CREATE INDEX IF NOT EXISTS `audit_threshold_idx`
+ON `agent_catalog`.`agent_scope`.`audit_logs`(`threshold`)
+WITH { "defer_build": true };
+
+-- 9️⃣ Optional: minScore index
+CREATE INDEX IF NOT EXISTS `audit_minScore_idx`
+ON `agent_catalog`.`agent_scope`.`audit_logs`(`minScore`)
+WITH { "defer_build": true };
+
+-- ==========================
+-- Build all deferred indexes at once
+-- ==========================
+
+BUILD INDEX ON `agent_catalog`.`agent_scope`.`qa`(
+    `qa_primary_idx`,
+    `qa_questions_idx`,
+    `qa_metadata_idx`
+);
+
+BUILD INDEX ON `agent_catalog`.`agent_scope`.`audit_logs`(
+    `audit_primary_idx`,
+    `audit_ts_idx`,
+    `audit_source_idx`,
+    `audit_ts_source_idx`,
+    `audit_threshold_idx`,
+    `audit_minScore_idx`
+);
