@@ -1,0 +1,95 @@
+{
+  "type": "fulltext-index",
+  "name": "agent_catalog.agent_scope.agent_vector_idx",
+  "uuid": "32cdd21e3f77b1c0",
+  "sourceType": "gocbcore",
+  "sourceName": "agent_catalog",
+  "sourceUUID": "a7993e30f637bb674973365a9e8dcdb2",
+  "planParams": {
+    "maxPartitionsPerPIndex": 128,
+    "indexPartitions": 1
+  },
+  "params": {
+    "doc_config": {
+      "docid_prefix_delim": "",
+      "docid_regexp": "",
+      "mode": "scope.collection.type_field",
+      "type_field": "type"
+    },
+    "mapping": {
+      "analysis": {},
+      "default_analyzer": "standard",
+      "default_datetime_parser": "dateTimeOptional",
+      "default_field": "_all",
+      "default_mapping": {
+        "dynamic": false,
+        "enabled": false
+      },
+      "default_type": "_default",
+      "docvalues_dynamic": false,
+      "index_dynamic": true,
+      "scoring_model": "bm25",
+      "store_dynamic": false,
+      "type_field": "_type",
+      "types": {
+        "agent_scope.qa": {
+          "dynamic": false,
+          "enabled": true,
+          "properties": {
+            "answer": {
+              "dynamic": false,
+              "enabled": true,
+              "fields": [
+                {
+                  "analyzer": "en",
+                  "index": true,
+                  "name": "answer",
+                  "store": true,
+                  "type": "text"
+                }
+              ]
+            },
+            "embedding_vector": {
+              "dynamic": false,
+              "enabled": true,
+              "fields": [
+                {
+                  "dims": 1536,
+                  "index": true,
+                  "name": "embedding_vector",
+                  "similarity": "cosine",
+                  "type": "vector",
+                  "vector_index_optimized_for": "recall"
+                }
+              ]
+            },
+            "question": {
+              "dynamic": false,
+              "enabled": true,
+              "fields": [
+                {
+                  "analyzer": "en",
+                  "index": true,
+                  "name": "question",
+                  "type": "text"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "store": {
+      "indexType": "scorch",
+      "scorchMergePlanOptions": {
+        "floorSegmentFileSize": 139810133
+      },
+      "scorchPersisterOptions": {
+        "maxSizeInMemoryMergePerWorker": 419430400,
+        "numPersisterWorkers": 4
+      },
+      "segmentVersion": 16
+    }
+  },
+  "sourceParams": {}
+}
