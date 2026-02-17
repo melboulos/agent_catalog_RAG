@@ -29,9 +29,7 @@
       width: 100%;
       margin: 1em 0;
     }
-    table, th, td {
-      border: 1px solid #ddd;
-    }
+    table, th, td { border: 1px solid #ddd; }
     th, td { padding: 10px; text-align: left; }
     caption { font-weight: bold; margin-bottom: 0.5em; }
     ul { margin: 0.5em 0 1em 1.5em; }
@@ -63,7 +61,6 @@ and <strong>Streamlit</strong> to build explainable, auditable, and agent-ready 
 <hr/>
 
 <h2>✨ Key Features</h2>
-
 <ul>
   <li>🔁 Deterministic routing: Cache → Vector → LLM</li>
   <li>🧠 Semantic reranking using LLMs (controlled & bounded)</li>
@@ -76,7 +73,6 @@ and <strong>Streamlit</strong> to build explainable, auditable, and agent-ready 
 <hr/>
 
 <h2>🏗️ Architecture Overview</h2>
-
 <pre>
 User Question
      |
@@ -103,11 +99,7 @@ Store + Return Answer
 <hr/>
 
 <h2>⚙️ Configuration</h2>
-
-<p>
-All runtime configuration lives at the <strong>top of the script</strong>:
-</p>
-
+<p>All runtime configuration lives at the <strong>top of the script</strong>:</p>
 <ul>
   <li><strong>Couchbase cluster & collections</strong></li>
   <li><strong>FTS vector index endpoint</strong></li>
@@ -115,7 +107,6 @@ All runtime configuration lives at the <strong>top of the script</strong>:
   <li><strong>Score thresholds</strong></li>
   <li><strong>Retrieval depth (TOP_K)</strong></li>
 </ul>
-
 <blockquote>
 ⚠️ <strong>Security note:</strong> Secrets should be moved to environment variables in production.
 </blockquote>
@@ -123,12 +114,10 @@ All runtime configuration lives at the <strong>top of the script</strong>:
 <hr/>
 
 <h2>🚀 Running Locally</h2>
-
 <pre><code>pip install -r requirements.txt
 streamlit run hash_agentcatalog.py</code></pre>
 
 <p>The UI provides:</p>
-
 <ul>
   <li>Top results table (Cache / Vector / LLM)</li>
   <li>Color-coded threshold violations</li>
@@ -139,31 +128,18 @@ streamlit run hash_agentcatalog.py</code></pre>
 <hr/>
 
 <h2>📊 Scoring Model</h2>
-
 <table>
   <caption>Score definitions</caption>
-  <tr>
-    <th>Score</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>Vector Score</strong></td>
-    <td>Relative similarity from Couchbase FTS vector search</td>
-  </tr>
-  <tr>
-    <td><strong>Semantic Score</strong></td>
-    <td>LLM-based reranking relevance score</td>
-  </tr>
-  <tr>
-    <td><strong>Threshold</strong></td>
-    <td>Minimum score required to avoid LLM fallback</td>
-  </tr>
+  <tr><th>Score</th><th>Description</th></tr>
+  <tr><td><strong>Vector Score</strong></td><td>Relative similarity from Couchbase FTS vector search</td></tr>
+  <tr><td><strong>Semantic Score</strong></td><td>LLM-based reranking relevance score</td></tr>
+  <tr><td><strong>Threshold</strong></td><td>Minimum score required to avoid LLM fallback</td></tr>
 </table>
 
 <hr/>
 
 <h2>🧪 Why This Matters</h2>
-
+<p>This project demonstrates how to build <strong>controlled, explainable AI systems</strong>:</p>
 <ul>
   <li>Prevent unnecessary LLM usage</li>
   <li>Eliminate hallucinated authority</li>
@@ -175,13 +151,13 @@ streamlit run hash_agentcatalog.py</code></pre>
 <hr/>
 
 <h2>🧩 Agent-Ready Design</h2>
-
+<p>This system can be exposed as a <strong>tool</strong> to:</p>
 <ul>
   <li>LangChain agents</li>
   <li>Bedrock Agents</li>
   <li>Custom orchestration frameworks</li>
 </ul>
-
+<p>Because results are scored, audited, and bounded, agents can:</p>
 <ul>
   <li>Trust responses</li>
   <li>Inspect provenance</li>
@@ -191,34 +167,28 @@ streamlit run hash_agentcatalog.py</code></pre>
 <hr/>
 
 <h2>📁 Project Structure</h2>
-
 <pre>
 hash_agentcatalog.py   # End-to-end pipeline + UI
 requirements.txt       # Python dependencies
 README.md / README.html # This document
-images/                # Pipeline diagram
+images/                # Pipeline diagram (PNG)
 </pre>
 
 <hr/>
 
 <h2>🔄 Decision Pipeline Flow</h2>
+<p>The diagram below illustrates how every request flows through the system,
+with deterministic gates controlling when (and if) an LLM is invoked.</p>
 
-<p>
-The diagram below illustrates how every request flows through the system,
-with deterministic gates controlling when (and if) an LLM is invoked.
-</p>
-
-<div style="text-align: center; margin: 30px 0;">
+<div style="text-align:center; margin:30px 0;">
   <img
-    src="images/pipeline-flow.png"
+    src="pipeline-flow.png"
     alt="Agent Catalog Decision Pipeline"
   />
 </div>
 
-<p>
-<strong>Key principle:</strong> LLMs are used <em>only</em> when cheaper, deterministic
-retrieval layers fail to meet confidence thresholds.
-</p>
+<p><strong>Key principle:</strong> LLMs are used <em>only</em> when cheaper, deterministic
+retrieval layers fail to meet confidence thresholds.</p>
 
 <hr/>
 
@@ -228,14 +198,12 @@ retrieval layers fail to meet confidence thresholds.
 <hr/>
 
 <h2>🙌 Credits</h2>
-
 <ul>
   <li>Couchbase Vector Search</li>
   <li>AWS Bedrock</li>
   <li>Streamlit</li>
   <li>Python</li>
 </ul>
-
 <p>Designed for engineers who want <strong>control</strong>, not magic.</p>
 
 </body>
