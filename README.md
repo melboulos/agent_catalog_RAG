@@ -1,94 +1,224 @@
-# Agent Catalog RAG
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Agent Catalog (RAG) — Cache → Vector → LLM</title>
+</head>
 
-## Overview
+<body>
 
-**Agent Catalog Q&A** 
-- **Cache → Vector → LLM** search flow
-- **Couchbase** as vector and audit store
-- **AWS Bedrock** for embeddings and LLM generation
-- Streamlit UI for interactive question answering
+<h1>🧠 Agent Catalog</h1>
 
-It is designed to:
-- Serve answers from cache if available
-- Perform **vector search** over Couchbase FTS + vector index
-- Rerank vector results using **semantic similarity** via LLM
-- Fallback to **LLM generation** if no vector or cache hits meet threshold
-- Maintain audit logs for all queries
----
+<p>
+<strong>Agent Catalog</strong> is a production-grade AI retrieval system that enforces
+<strong>deterministic decision-making</strong> across
+<strong>Cache → Vector Search → LLM fallback</strong>.
+</p>
 
-## Features
-- **Cache-first** approach to minimize LLM calls
-- **Vector search** using Couchbase Full Text Search (FTS) with embeddings
-- **Semantic reranking** for better relevance
-- **Thresholding** for vector scores
-- **Audit logging** of top answers, latency, and scores
-- **Streamlit UI** with interactive table
-- **End-to-end production ready** with no config or code loss
----
+<p>
+It integrates <strong>Couchbase Vector Search</strong>, <strong>AWS Bedrock</strong>,
+and <strong>Streamlit</strong> to build explainable, auditable, and agent-ready AI pipelines.
+</p>
 
-## Architecture
-```text
+<hr/>
+
+<h2>✨ Key Features</h2>
+
+<ul>
+  <li>🔁 Deterministic routing: Cache → Vector → LLM</li>
+  <li>🧠 Semantic reranking using LLMs (controlled & bounded)</li>
+  <li>📊 Side-by-side scoring (Vector + Semantic)</li>
+  <li>🧾 Full audit logging for observability</li>
+  <li>🚦 Threshold-based LLM invocation</li>
+  <li>🧩 Agent-ready architecture</li>
+</ul>
+
+<hr/>
+
+<h2>🏗️ Architecture Overview</h2>
+
+<pre>
 User Question
-     │
-     ▼
-  Cache Check ──► Hit: return
-     │
-     ▼
- Vector Search (FTS + embedding)
-     │
-     ▼
- Semantic Rerank (LLM)
-     │
-     ▼
-Threshold Check
- ┌───────────────┐
- │  Above        │─► Return vector results
- │  Below        │─► Call LLM → Return LLM + vector
- └───────────────┘
-     │
-     ▼
- Store in Cache / Audit
-######################
+     |
+     v
+[ Cache Lookup ]
+     |
+     |-- HIT → Return Cached Answer
+     |
+     v
+[ Vector Search (Couchbase FTS) ]
+     |
+     v
+[ Semantic Reranker (LLM) ]
+     |
+     |-- Above Threshold → Return Vector Result
+     |
+     v
+[ LLM Fallback ]
+     |
+     v
+Store + Return Answer
+</pre>
 
-Installation
-# Clone repository
-git clone https://github.com/yourusername/agent-catalog.git
-cd agent-catalog
+<hr/>
 
-# Install dependencies
-pip install -r requirements.txt
+<h2>⚙️ Configuration</h2>
 
+<p>
+All runtime configuration lives at the <strong>top of the script</strong>:
+</p>
 
-Required:
-Python 3.11+
-Couchbase cluster with FTS + vector index
-AWS account with Bedrock access
-Streamlit for UI
+<ul>
+  <li><strong>Couchbase cluster & collections</strong></li>
+  <li><strong>FTS vector index endpoint</strong></li>
+  <li><strong>AWS Bedrock embedding + LLM models</strong></li>
+  <li><strong>Score thresholds</strong></li>
+  <li><strong>Retrieval depth (TOP_K)</strong></li>
+</ul>
 
-**Configuration**
-**Edit the following in hash_agentcatalog.py:**
+<blockquote>
+  ⚠️ <strong>Security note:</strong> Secrets should be moved to environment variables in production.
+</blockquote>
 
-CB_CONN_STR = "couchbases://<cluster>.cloud.couchbase.com"
-CB_USERNAME = "<username>"
-CB_PASSWORD = "<password>"
-CB_BUCKET = "agent_catalog"
-CB_SCOPE = "agent_scope"
-CB_QA_COLLECTION = "qa"
-CB_AUDIT_COLLECTION = "audit_logs"
-CB_FTS_URL = "https://<cluster>.cloud.couchbase.com:18094/api/index/<bucket>.<scope>.<vector_index>/query"
-CB_CA_BUNDLE = "<path-to-root-certificate>"
-BEDROCK_REGION = "us-east-1"
-EMBED_MODEL_ID = "amazon.titan-embed-text-v1"
-LLM_MODEL_ID = "meta.llama3-70b-instruct-v1:0"
-SCORE_THRESHOLD = 85
-TOP_K = 10
-Usage
---> streamlit run hash_agentcatalog.py
-Type a question in the input box
-Top 3 answers are displayed with:
--Source (Cache, Vector, LLM)
--Threshold
--Vector Score
--Semantic Score
--Latency
--Below Threshold flag
+<hr/>
+
+<h2>🚀 Running Locally</h2>
+
+<pre><code>pip install -r requirements.txt
+streamlit run hash_agentcatalog.py</code></pre>
+
+<p>
+The UI will launch with:
+</p>
+
+<ul>
+  <li>Top results table (Cache / Vector / LLM)</li>
+  <li>Color-coded threshold violations</li>
+  <li>Semantic score visualization</li>
+  <li>Audit log explorer</li>
+</ul>
+
+<hr/>
+
+<h2>📊 Scoring Model</h2>
+
+<table border="1" cellpadding="6" cellspacing="0">
+  <tr>
+    <th>Score</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>Vector Score</strong></td>
+    <td>Relative similarity from Couchbase FTS vector search</td>
+  </tr>
+  <tr>
+    <td><strong>Semantic Score</strong></td>
+    <td>LLM-based reranking relevance score</td>
+  </tr>
+  <tr>
+    <td><strong>Threshold</strong></td>
+    <td>Minimum score required to avoid LLM fallback</td>
+  </tr>
+</table>
+
+<hr/>
+
+<h2>🧪 Why This Matters</h2>
+
+<p>
+This project demonstrates how to build <strong>controlled, explainable AI systems</strong>:
+</p>
+
+<ul>
+  <li>Prevent unnecessary LLM usage</li>
+  <li>Eliminate hallucinated authority</li>
+  <li>Combine probabilistic search with deterministic rules</li>
+  <li>Enable agent toolchains safely</li>
+  <li>Operate AI with <em>confidence</em>, not vibes</li>
+</ul>
+
+<hr/>
+
+<h2>🧩 Agent-Ready Design</h2>
+
+<p>
+This system can be exposed as a <strong>tool</strong> to:
+</p>
+
+<ul>
+  <li>LangChain agents</li>
+  <li>Bedrock Agents</li>
+  <li>Custom orchestration frameworks</li>
+</ul>
+
+<p>
+Because results are scored, audited, and bounded, agents can:
+</p>
+
+<ul>
+  <li>Trust responses</li>
+  <li>Inspect provenance</li>
+  <li>Decide whether escalation is required</li>
+</ul>
+
+<hr/>
+
+<h2>📁 Project Structure</h2>
+
+<pre>
+hash_agentcatalog.py   # End-to-end pipeline + UI
+requirements.txt       # Python dependencies
+README.md              # This document
+</pre>
+
+<hr/>
+
+<h2>📜 License</h2>
+
+<p>
+MIT License — use freely, responsibly, and visibly.
+</p>
+
+<hr/>
+
+<h2>🙌 Credits</h2>
+
+<p>
+Built with:
+</p>
+
+<ul>
+  <li>Couchbase Vector Search</li>
+  <li>AWS Bedrock</li>
+  <li>Streamlit</li>
+  <li>Python</li>
+</ul>
+
+<p>
+Designed for engineers who want <strong>control</strong>, not magic.
+</p>
+
+</body>
+</html>
+
+<hr/>
+
+<h2>🔄 Decision Pipeline Flow</h2>
+
+<p>
+The diagram below illustrates how every request flows through the system,
+with deterministic gates controlling when (and if) an LLM is allowed to run.
+</p>
+
+<div style="text-align: center; margin: 30px 0;">
+  <img
+    src="/Users/melboulos/agent_catalog/images/pipeline-flow.png"
+    alt="Agent Catalog Decision Pipeline"
+    style="max-width: 100%; border: 1px solid #ddd; border-radius: 6px;"
+  />
+</div>
+
+<p>
+<strong>Key principle:</strong> LLMs are used <em>only</em> when cheaper, more deterministic
+retrieval layers fail to meet confidence thresholds.
+</p>
