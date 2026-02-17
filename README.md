@@ -13,7 +13,7 @@
       color: #111;
     }
     h1, h2, h3 { color: #2c3e50; }
-    h1 { font-size: 2.2em; }
+    h1 { font-size: 2.2em; margin-top: 0; }
     h2 { font-size: 1.8em; margin-top: 2em; }
     h3 { font-size: 1.4em; }
     pre {
@@ -28,7 +28,14 @@
     caption { font-weight: bold; margin-bottom: 0.5em; }
     ul { margin: 0.5em 0 1em 1.5em; }
     img { max-width: 100%; border: 1px solid #ddd; border-radius: 6px; }
-    blockquote { background: #fff3cd; padding: 10px 15px; border-left: 6px solid #ffeeba; border-radius: 4px; margin: 1em 0; }
+    blockquote {
+      background: #fff3cd;
+      padding: 10px 15px;
+      border-left: 6px solid #ffeeba;
+      border-radius: 4px;
+      margin: 1em 0;
+    }
+    hr { border: 0; border-top: 1px solid #ddd; margin: 2em 0; }
   </style>
 </head>
 
@@ -112,6 +119,43 @@ streamlit run hash_agentcatalog.py</code></pre>
     <tr><td><strong>Semantic Score</strong></td><td>LLM-based reranking relevance score</td></tr>
     <tr><td><strong>Threshold</strong></td><td>Minimum score required to avoid LLM fallback</td></tr>
   </table>
+
+  <hr>
+
+  <h2>🧪 Why This Matters</h2>
+  <ul>
+    <li>Prevent unnecessary LLM usage</li>
+    <li>Eliminate hallucinated authority</li>
+    <li>Combine probabilistic search with deterministic rules</li>
+    <li>Enable agent toolchains safely</li>
+    <li>Operate AI with <em>confidence</em>, not vibes</li>
+  </ul>
+
+  <hr>
+
+  <h2>🧩 Agent-Ready Design</h2>
+  <p>This system can be exposed as a <strong>tool</strong> to:</p>
+  <ul>
+    <li>LangChain agents</li>
+    <li>Bedrock Agents</li>
+    <li>Custom orchestration frameworks</li>
+  </ul>
+  <p>Because results are scored, audited, and bounded, agents can:</p>
+  <ul>
+    <li>Trust responses</li>
+    <li>Inspect provenance</li>
+    <li>Decide whether escalation is required</li>
+  </ul>
+
+  <hr>
+
+  <h2>📁 Project Structure</h2>
+  <pre>
+hash_agentcatalog.py   # End-to-end pipeline + UI
+requirements.txt       # Python dependencies
+README.md / README.html # This document
+images/                # Pipeline diagram (PNG)
+  </pre>
 
   <hr>
 
