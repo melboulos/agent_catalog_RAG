@@ -24,27 +24,28 @@ ul { margin-left: 20px; }
 
 <h2>1. Overview</h2>
 <ul>
-<li><strong>Agent Catalog Q&A</strong> is a production-ready question-answering pipeline that integrates:</li>
+<li>Agent Catalog Q&A is a production-ready question-answering pipeline that integrates:</li>
 <ul>
-<li><strong>Couchbase</strong>: Cache & vector store</li>
-<li><strong>FTS (Full Text Search)</strong>: Fast vector candidate retrieval</li>
-<li><strong>AWS Bedrock</strong>:
+<li>Couchbase: Cache & vector store</li>
+<li>FTS (Full Text Search): Fast vector candidate retrieval</li>
+<li>AWS Bedrock:
   <ul>
-    <li><strong>Titan embeddings</strong> for vector search</li>
-    <li><strong>LLaMA3 LLM</strong> for answer generation and semantic reranking</li>
+    <li>Titan embeddings for vector search</li>
+    <li>LLaMA3 LLM for answer generation and semantic reranking</li>
   </ul>
 </li>
-<li><strong>Streamlit</strong>: Interactive front-end for Q&A and audit visualization</li>
+<li>Streamlit: Interactive front-end for Q&A and audit visualization</li>
 </ul>
-<li>The system prioritizes <strong>speed and relevance</strong>:</li>
-<ul>
-<li><strong>Cache</strong> → return cached answer if available</li>
-<li><strong>Vector Search</strong> → retrieve vector candidates from Couchbase FTS</li>
-<li><strong>Semantic Reranking</strong> → rerank vector hits using LLM</li>
-<li><strong>Threshold Evaluation</strong> → display vector answers above threshold; below threshold answers are highlighted in red</li>
-<li><strong>LLM Fallback</strong> → generate answer only if vector fails threshold or cache is missing</li>
-<li><strong>Audit Logging</strong> → store all results, scores, and latency</li>
-</ul>
+<li>The system prioritizes <strong>speed and relevance</strong>:
+  <ul>
+    <li>Cache → return cached answer if available</li>
+    <li>Vector Search → retrieve vector candidates from Couchbase FTS</li>
+    <li>Semantic Reranking → rerank vector hits using LLM</li>
+    <li>Threshold Evaluation → display vector answers above threshold; below threshold answers are highlighted in red</li>
+    <li>LLM Fallback → generate answer only if vector fails threshold or cache is missing</li>
+    <li>Audit Logging → store all results, scores, and latency</li>
+  </ul>
+</li>
 </ul>
 
 <hr>
@@ -73,52 +74,58 @@ User Question
 <hr>
 <h2>3. Couchbase Configuration</h2>
 <ul>
-<li>Bucket / Collections:</li>
-<ul>
-<li>Bucket: <code>agent_catalog</code></li>
-<li>Scope: <code>agent_scope</code></li>
-<li>QA Collection: <code>qa</code></li>
-<li>Audit Logs Collection: <code>audit_logs</code></li>
-</ul>
-<li>FTS Vector Index:</li>
-<ul>
-<li>Name: <code>agent_vector_idx</code></li>
-<li>Fields indexed: <code>embedding_vector</code>, <code>answer</code></li>
-<li>Used for <strong>semantic search</strong> via REST API</li>
-</ul>
-<li>Connection Settings:</li>
+<li>Bucket / Collections:
+  <ul>
+    <li>Bucket: <code>agent_catalog</code></li>
+    <li>Scope: <code>agent_scope</code></li>
+    <li>QA Collection: <code>qa</code></li>
+    <li>Audit Logs Collection: <code>audit_logs</code></li>
+  </ul>
+</li>
+<li>FTS Vector Index:
+  <ul>
+    <li>Name: <code>agent_vector_idx</code></li>
+    <li>Fields indexed: <code>embedding_vector</code>, <code>answer</code></li>
+    <li>Used for semantic search via REST API</li>
+  </ul>
+</li>
+<li>Connection Settings:
 <pre><code>
 Connection string: couchbases://&lt;cluster-address&gt;
 Username: cbimport
 Password: &lt;password&gt;
 CA Bundle: &lt;path-to-root-certificate&gt;
 </code></pre>
+</li>
 </ul>
 
 <hr>
 <h2>4. AWS Bedrock Integration</h2>
 <ul>
-<li>This project uses <strong>AWS Bedrock</strong> for embedding generation and LLM-powered answer generation</li>
-<li>Embedding Model:</li>
-<ul>
-<li>Model: <code>amazon.titan-embed-text-v1</code></li>
-<li>Purpose: Generates vector embeddings for semantic search in Couchbase</li>
-</ul>
-<li>LLM Model:</li>
-<ul>
-<li>Model: <code>meta.llama3-70b-instruct-v1:0</code></li>
-<li>Purpose:
+<li>Uses AWS Bedrock for both embedding generation and LLM-powered answer generation</li>
+<li>Embedding Model:
   <ul>
-    <li>Semantic reranking of vector hits</li>
-    <li>Generating answers when cache or vector results are missing/below threshold</li>
+    <li>Model: <code>amazon.titan-embed-text-v1</code></li>
+    <li>Purpose: Generates vector embeddings for semantic search in Couchbase</li>
   </ul>
 </li>
-</ul>
-<li>Boto3 Client Initialization:</li>
+<li>LLM Model:
+  <ul>
+    <li>Model: <code>meta.llama3-70b-instruct-v1:0</code></li>
+    <li>Purpose:
+      <ul>
+        <li>Semantic reranking of vector hits</li>
+        <li>Generating answers when cache or vector results are missing or below threshold</li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li>Boto3 Client Initialization:
 <pre><code>import boto3
 bedrock_runtime = boto3.client("bedrock-runtime", region_name="us-east-1")
 </code></pre>
-<li>Embedding Generation:</li>
+</li>
+<li>Embedding Generation:
 <pre><code>def get_embedding(text: str):
     response = bedrock_runtime.invoke_model(
         modelId="amazon.titan-embed-text-v1",
@@ -129,7 +136,8 @@ bedrock_runtime = boto3.client("bedrock-runtime", region_name="us-east-1")
     payload = json.loads(response["body"].read())
     return payload["embedding"]
 </code></pre>
-<li>LLM Answer Generation:</li>
+</li>
+<li>LLM Answer Generation:
 <pre><code>def generate_answer(question: str):
     response = bedrock_runtime.invoke_model(
         modelId="meta.llama3-70b-instruct-v1:0",
@@ -140,13 +148,14 @@ bedrock_runtime = boto3.client("bedrock-runtime", region_name="us-east-1")
     payload = json.loads(response["body"].read())
     return payload.get("generation") or payload.get("generations", [{}])[0].get("text", "")
 </code></pre>
+</li>
 </ul>
 
 <hr>
 <h2>5. Vector Search and Semantic Reranking</h2>
 <ul>
 <li>Uses Couchbase FTS with vectors to retrieve semantically relevant answers</li>
-<li>Vector Search via REST:</li>
+<li>Vector Search via REST:
 <pre><code>import requests
 from requests.auth import HTTPBasicAuth
 
@@ -174,11 +183,13 @@ def vector_search_rest(embedding):
     logging.info(f"🔍 Raw FTS hits count: {len(hits)}")
     return hits
 </code></pre>
-<li>Semantic Reranking using LLM</li>
+</li>
+<li>Semantic Reranking using LLM
 <pre><code>def rerank_vector_hits(question: str, vector_rows: list):
     # Reranker logic, parse JSON, update semantic_score
     return vector_rows[:3]
 </code></pre>
+</li>
 <li>Top 3 reranked answers returned</li>
 </ul>
 
@@ -231,11 +242,12 @@ all_rows.append(row)
 <h2>9. Audit and Logging</h2>
 <ul>
 <li>Logging configuration with INFO level</li>
-<li>Save audit documents in Couchbase audit_logs collection</li>
+<li>Save audit documents in Couchbase audit_logs collection
 <pre><code>def save_audit(source, latency, vector_score, question, top3):
     audit_col.insert(str(time.time()), {...})
     logging.info(f"📝 Audit saved | source={source} | latency={latency} | vector_score={vector_score} | question='{question}'")
 </code></pre>
+</li>
 </ul>
 
 <hr>
