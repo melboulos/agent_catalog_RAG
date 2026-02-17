@@ -55,10 +55,10 @@
 <strong>Cache → Vector Search → LLM fallback</strong>.
 </p>
 
-<!-- rest of your content goes here -->
-</body>
-</html>
-
+<p>
+It integrates <strong>Couchbase Vector Search</strong>, <strong>AWS Bedrock</strong>,
+and <strong>Streamlit</strong> to build explainable, auditable, and agent-ready AI pipelines.
+</p>
 
 <hr/>
 
@@ -127,9 +127,7 @@ All runtime configuration lives at the <strong>top of the script</strong>:
 <pre><code>pip install -r requirements.txt
 streamlit run hash_agentcatalog.py</code></pre>
 
-<p>
-The UI provides:
-</p>
+<p>The UI provides:</p>
 
 <ul>
   <li>Top results table (Cache / Vector / LLM)</li>
@@ -166,10 +164,6 @@ The UI provides:
 
 <h2>🧪 Why This Matters</h2>
 
-<p>
-This project demonstrates how to build <strong>controlled, explainable AI systems</strong>:
-</p>
-
 <ul>
   <li>Prevent unnecessary LLM usage</li>
   <li>Eliminate hallucinated authority</li>
@@ -182,19 +176,11 @@ This project demonstrates how to build <strong>controlled, explainable AI system
 
 <h2>🧩 Agent-Ready Design</h2>
 
-<p>
-This system can be exposed as a <strong>tool</strong> to:
-</p>
-
 <ul>
   <li>LangChain agents</li>
   <li>Bedrock Agents</li>
   <li>Custom orchestration frameworks</li>
 </ul>
-
-<p>
-Because results are scored, audited, and bounded, agents can:
-</p>
 
 <ul>
   <li>Trust responses</li>
@@ -224,7 +210,7 @@ with deterministic gates controlling when (and if) an LLM is invoked.
 
 <div style="text-align: center; margin: 30px 0;">
   <img
-    src="pipeline-flow.png"
+    src="images/pipeline-flow.png"
     alt="Agent Catalog Decision Pipeline"
   />
 </div>
@@ -237,10 +223,7 @@ retrieval layers fail to meet confidence thresholds.
 <hr/>
 
 <h2>📜 License</h2>
-
-<p>
-MIT License — use freely, responsibly, and visibly.
-</p>
+<p>MIT License — use freely, responsibly, and visibly.</p>
 
 <hr/>
 
@@ -253,9 +236,7 @@ MIT License — use freely, responsibly, and visibly.
   <li>Python</li>
 </ul>
 
-<p>
-Designed for engineers who want <strong>control</strong>, not magic.
-</p>
+<p>Designed for engineers who want <strong>control</strong>, not magic.</p>
 
 </body>
 </html>
