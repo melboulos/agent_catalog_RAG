@@ -1,8 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Agent Catalog (RAG) — Cache → Vector → LLM</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      max-width: 960px;
+      margin-left: auto;
+      margin-right: auto;
+      color: #111;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    h1 {
+      font-size: 2.2em;
+    }
+    h2 {
+      font-size: 1.8em;
+      margin-top: 2em;
+    }
+    h3 {
+      font-size: 1.4em;
+    }
+    pre {
+      background: #f6f8fa;
+      padding: 10px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1em 0;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    caption {
+      font-weight: bold;
+      margin-bottom: 0.5em;
+    }
+    ul {
+      margin: 0.5em 0 1em 1.5em;
+    }
+    img {
+      max-width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+    blockquote {
+      background: #fff3cd;
+      padding: 10px 15px;
+      border-left: 6px solid #ffeeba;
+      border-radius: 4px;
+      margin: 1em 0;
+    }
+  </style>
 </head>
 
 <body>
@@ -77,7 +139,7 @@ All runtime configuration lives at the <strong>top of the script</strong>:
 </ul>
 
 <blockquote>
-  ⚠️ <strong>Security note:</strong> Secrets should be moved to environment variables in production.
+⚠️ <strong>Security note:</strong> Secrets should be moved to environment variables in production.
 </blockquote>
 
 <hr/>
@@ -88,7 +150,7 @@ All runtime configuration lives at the <strong>top of the script</strong>:
 streamlit run hash_agentcatalog.py</code></pre>
 
 <p>
-The UI will launch with:
+The UI provides:
 </p>
 
 <ul>
@@ -102,7 +164,8 @@ The UI will launch with:
 
 <h2>📊 Scoring Model</h2>
 
-<table border="1" cellpadding="6" cellspacing="0">
+<table>
+  <caption>Score definitions</caption>
   <tr>
     <th>Score</th>
     <th>Description</th>
@@ -168,8 +231,30 @@ Because results are scored, audited, and bounded, agents can:
 <pre>
 hash_agentcatalog.py   # End-to-end pipeline + UI
 requirements.txt       # Python dependencies
-README.md              # This document
+README.md / README.html # This document
+images/                # Pipeline diagram
 </pre>
+
+<hr/>
+
+<h2>🔄 Decision Pipeline Flow</h2>
+
+<p>
+The diagram below illustrates how every request flows through the system,
+with deterministic gates controlling when (and if) an LLM is invoked.
+</p>
+
+<div style="text-align: center; margin: 30px 0;">
+  <img
+    src="pipeline-flow.png"
+    alt="Agent Catalog Decision Pipeline"
+  />
+</div>
+
+<p>
+<strong>Key principle:</strong> LLMs are used <em>only</em> when cheaper, deterministic
+retrieval layers fail to meet confidence thresholds.
+</p>
 
 <hr/>
 
@@ -182,10 +267,6 @@ MIT License — use freely, responsibly, and visibly.
 <hr/>
 
 <h2>🙌 Credits</h2>
-
-<p>
-Built with:
-</p>
 
 <ul>
   <li>Couchbase Vector Search</li>
@@ -200,25 +281,3 @@ Designed for engineers who want <strong>control</strong>, not magic.
 
 </body>
 </html>
-
-<hr/>
-
-<h2>🔄 Decision Pipeline Flow</h2>
-
-<p>
-The diagram below illustrates how every request flows through the system,
-with deterministic gates controlling when (and if) an LLM is allowed to run.
-</p>
-
-<div style="text-align: center; margin: 30px 0;">
-  <img
-    src="/images/pipeline-flow.png"
-    alt="Agent Catalog Decision Pipeline"
-    style="max-width: 100%; border: 1px solid #ddd; border-radius: 6px;"
-  />
-</div>
-
-<p>
-<strong>Key principle:</strong> LLMs are used <em>only</em> when cheaper, more deterministic
-retrieval layers fail to meet confidence thresholds.
-</p>
