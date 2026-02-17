@@ -4,25 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Agent Catalog RAG — Project Notes</title>
-<style>
-body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; max-width: 1000px; }
-h1, h2, h3, h4 { color: #2c3e50; }
-code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 3px; font-family: monospace; }
-pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto; }
-hr { border: none; border-top: 1px solid #ccc; margin: 20px 0; }
-ul { margin-left: 20px; }
-.highlight-red { color: red; font-weight: bold; }
-</style>
 </head>
-<body>
+<body style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.6;padding:20px;max-width:960px;margin:0 auto;color:#111;background:#fafafa;">
 
-<h1>Agent Catalog RAG — Project Notes</h1>
+<h1 style="color:#2c3e50;">🧠 Agent Catalog RAG — Project Notes</h1>
 <ul>
 <li>These notes describe the design, implementation, and key details of the <strong>Agent Catalog RAG system</strong>.</li>
 </ul>
-<hr>
+<hr style="border-top:1px solid #ddd;margin:2em 0;">
 
-<h2>1. Overview</h2>
+<h2 style="color:#2c3e50;">1. Overview</h2>
 <ul>
 <li>Agent Catalog Q&A is a production-ready question-answering pipeline that integrates:</li>
 <ul>
@@ -41,16 +32,16 @@ ul { margin-left: 20px; }
     <li>Cache → return cached answer if available</li>
     <li>Vector Search → retrieve vector candidates from Couchbase FTS</li>
     <li>Semantic Reranking → rerank vector hits using LLM</li>
-    <li>Threshold Evaluation → display vector answers above threshold; below threshold answers are highlighted in red</li>
+    <li>Threshold Evaluation → display vector answers above threshold; below threshold answers are highlighted in <span style="color:red;font-weight:bold;">red</span></li>
     <li>LLM Fallback → generate answer only if vector fails threshold or cache is missing</li>
     <li>Audit Logging → store all results, scores, and latency</li>
   </ul>
 </li>
 </ul>
+<hr style="border-top:1px solid #ddd;margin:2em 0;">
 
-<hr>
-<h2>2. Data Flow</h2>
-<pre><code>
+<h2 style="color:#2c3e50;">2. Data Flow</h2>
+<pre style="background:#f6f8fa;padding:10px;border-radius:6px;overflow-x:auto;"><code>
 User Question
        ↓
    Pipeline
@@ -70,9 +61,9 @@ User Question
        ↓
    Streamlit UI display
 </code></pre>
+<hr style="border-top:1px solid #ddd;margin:2em 0;">
 
-<hr>
-<h2>3. Couchbase Configuration</h2>
+<h2 style="color:#2c3e50;">3. Couchbase Configuration</h2>
 <ul>
 <li>Bucket / Collections:
   <ul>
@@ -90,7 +81,7 @@ User Question
   </ul>
 </li>
 <li>Connection Settings:
-<pre><code>
+<pre style="background:#f6f8fa;padding:10px;border-radius:6px;overflow-x:auto;"><code>
 Connection string: couchbases://&lt;cluster-address&gt;
 Username: cbimport
 Password: &lt;password&gt;
@@ -98,9 +89,9 @@ CA Bundle: &lt;path-to-root-certificate&gt;
 </code></pre>
 </li>
 </ul>
+<hr style="border-top:1px solid #ddd;margin:2em 0;">
 
-<hr>
-<h2>4. AWS Bedrock Integration</h2>
+<h2 style="color:#2c3e50;">4. AWS Bedrock Integration</h2>
 <ul>
 <li>Uses AWS Bedrock for both embedding generation and LLM-powered answer generation</li>
 <li>Embedding Model:
@@ -121,12 +112,12 @@ CA Bundle: &lt;path-to-root-certificate&gt;
   </ul>
 </li>
 <li>Boto3 Client Initialization:
-<pre><code>import boto3
+<pre style="background:#f6f8fa;padding:10px;border-radius:6px;overflow-x:auto;"><code>import boto3
 bedrock_runtime = boto3.client("bedrock-runtime", region_name="us-east-1")
 </code></pre>
 </li>
 <li>Embedding Generation:
-<pre><code>def get_embedding(text: str):
+<pre style="background:#f6f8fa;padding:10px;border-radius:6px;overflow-x:auto;"><code>def get_embedding(text: str):
     response = bedrock_runtime.invoke_model(
         modelId="amazon.titan-embed-text-v1",
         body=json.dumps({"inputText": text}),
@@ -138,7 +129,7 @@ bedrock_runtime = boto3.client("bedrock-runtime", region_name="us-east-1")
 </code></pre>
 </li>
 <li>LLM Answer Generation:
-<pre><code>def generate_answer(question: str):
+<pre style="background:#f6f8fa;padding:10px;border-radius:6px;overflow-x:auto;"><code>def generate_answer(question: str):
     response = bedrock_runtime.invoke_model(
         modelId="meta.llama3-70b-instruct-v1:0",
         body=json.dumps({"prompt": f"Answer concisely:\n\n{question}\n\nAnswer:"}),
@@ -150,13 +141,13 @@ bedrock_runtime = boto3.client("bedrock-runtime", region_name="us-east-1")
 </code></pre>
 </li>
 </ul>
+<hr style="border-top:1px solid #ddd;margin:2em 0;">
 
-<hr>
-<h2>5. Vector Search and Semantic Reranking</h2>
+<h2 style="color:#2c3e50;">5. Vector Search and Semantic Reranking</h2>
 <ul>
 <li>Uses Couchbase FTS with vectors to retrieve semantically relevant answers</li>
 <li>Vector Search via REST:
-<pre><code>import requests
+<pre style="background:#f6f8fa;padding:10px;border-radius:6px;overflow-x:auto;"><code>import requests
 from requests.auth import HTTPBasicAuth
 
 def vector_search_rest(embedding):
@@ -184,21 +175,21 @@ def vector_search_rest(embedding):
     return hits
 </code></pre>
 </li>
-<li>Semantic Reranking using LLM
-<pre><code>def rerank_vector_hits(question: str, vector_rows: list):
+<li>Semantic Reranking using LLM:
+<pre style="background:#f6f8fa;padding:10px;border-radius:6px;overflow-x:auto;"><code>def rerank_vector_hits(question: str, vector_rows: list):
     # Reranker logic, parse JSON, update semantic_score
     return vector_rows[:3]
 </code></pre>
 </li>
 <li>Top 3 reranked answers returned</li>
 </ul>
+<hr style="border-top:1px solid #ddd;margin:2em 0;">
 
-<hr>
-<h2>6. Cache Handling and Deduplication</h2>
+<h2 style="color:#2c3e50;">6. Cache Handling and Deduplication</h2>
 <ul>
 <li>Cache lookup in Couchbase to avoid repeated LLM calls</li>
 <li>Deduplicate answers from cache and vector search</li>
-<pre><code>import hashlib
+<pre style="background:#f6f8fa;padding:10px;border-radius:6px;overflow-x:auto;"><code>import hashlib
 from couchbase.exceptions import DocumentNotFoundException
 
 doc_id = hashlib.sha256(question.strip().lower().encode("utf-8")).hexdigest()
@@ -211,12 +202,12 @@ except DocumentNotFoundException:
     logging.info(f"🟡 Cache miss | question='{question}'")
 </code></pre>
 </ul>
+<hr style="border-top:1px solid #ddd;margin:2em 0;">
 
-<hr>
-<h2>7. LLM Fallback Logic</h2>
+<h2 style="color:#2c3e50;">7. LLM Fallback Logic</h2>
 <ul>
 <li>Trigger LLM only if cache/vector below threshold</li>
-<pre><code>if not all_rows or all(r["Vector Score"] &lt; SCORE_THRESHOLD for r in all_rows):
+<pre style="background:#f6f8fa;padding:10px;border-radius:6px;overflow-x:auto;"><code>if not all_rows or all(r["Vector Score"] &lt; SCORE_THRESHOLD for r in all_rows):
     logging.info("🟢 LLM fallback for missing or below threshold answers")
     answer = generate_answer(question)
 qa_col.upsert(doc_id, {
@@ -230,31 +221,31 @@ row = {...}
 all_rows.append(row)
 </code></pre>
 </ul>
+<hr style="border-top:1px solid #ddd;margin:2em 0;">
 
-<hr>
-<h2>8. Streamlit UI and Grid Display</h2>
+<h2 style="color:#2c3e50;">8. Streamlit UI and Grid Display</h2>
 <ul>
 <li>Page setup, question input, results table, AG-Grid formatting</li>
 <li>Display last 20 audit logs with expanders</li>
 </ul>
+<hr style="border-top:1px solid #ddd;margin:2em 0;">
 
-<hr>
-<h2>9. Audit and Logging</h2>
+<h2 style="color:#2c3e50;">9. Audit and Logging</h2>
 <ul>
 <li>Logging configuration with INFO level</li>
-<li>Save audit documents in Couchbase audit_logs collection
-<pre><code>def save_audit(source, latency, vector_score, question, top3):
+<li>Save audit documents in Couchbase audit_logs collection:
+<pre style="background:#f6f8fa;padding:10px;border-radius:6px;overflow-x:auto;"><code>def save_audit(source, latency, vector_score, question, top3):
     audit_col.insert(str(time.time()), {...})
     logging.info(f"📝 Audit saved | source={source} | latency={latency} | vector_score={vector_score} | question='{question}'")
 </code></pre>
 </li>
 </ul>
+<hr style="border-top:1px solid #ddd;margin:2em 0;">
 
-<hr>
-<h2>10. Deployment and Production Notes</h2>
+<h2 style="color:#2c3e50;">10. Deployment and Production Notes</h2>
 <ul>
 <li>System requirements: Python 3.10+, Streamlit, Couchbase 8+, AWS Bedrock, TLS/CA bundle</li>
-<li>Configuration: Update hash_agentcatalog.py with credentials, set SCORE_THRESHOLD and TOP_K</li>
+<li>Configuration: Update <code>hash_agentcatalog.py</code> with credentials, set SCORE_THRESHOLD and TOP_K</li>
 <li>Run app: <code>streamlit run hash_agentcatalog.py</code></li>
 <li>Deployment considerations: security, scalability, monitoring, maintenance</li>
 <li>Summary: end-to-end QA pipeline integrating Couchbase, semantic reranking, AWS Bedrock, audit logging, Streamlit UI</li>
