@@ -212,7 +212,7 @@ with deterministic gates controlling when (and if) an LLM is allowed to run.
 
 <div style="text-align: center; margin: 30px 0;">
   <img
-    src="/Users/melboulos/agent_catalog/images/pipeline-flow.png"
+    src="/images/pipeline-flow.png"
     alt="Agent Catalog Decision Pipeline"
     style="max-width: 100%; border: 1px solid #ddd; border-radius: 6px;"
   />
