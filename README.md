@@ -1,60 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Agent Catalog (RAG) — Cache → Vector → LLM</title>
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.6;
-      padding: 20px;
-      max-width: 960px;
-      margin: 0 auto;
-      color: #111;
-      background-color: #fafafa;
-    }
-    h1, h2, h3 { color: #2c3e50; }
-    h1 { font-size: 2.2em; margin-top: 0; }
-    h2 { font-size: 1.8em; margin-top: 2em; }
-    h3 { font-size: 1.4em; }
-    pre {
-      background: #f6f8fa;
-      padding: 10px;
-      border-radius: 6px;
-      overflow-x: auto;
-    }
-    code {
-      font-family: monospace;
-      background-color: #eee;
-      padding: 2px 4px;
-      border-radius: 4px;
-    }
-    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
-    table, th, td { border: 1px solid #ddd; }
-    th, td { padding: 10px; text-align: left; }
-    caption { font-weight: bold; margin-bottom: 0.5em; }
-    ul { margin: 0.5em 0 1em 1.5em; }
-    img { max-width: 100%; border: 1px solid #ddd; border-radius: 6px; }
-    blockquote {
-      background: #fff3cd;
-      padding: 10px 15px;
-      border-left: 6px solid #ffeeba;
-      border-radius: 4px;
-      margin: 1em 0;
-    }
-    hr { border: 0; border-top: 1px solid #ddd; margin: 2em 0; }
-  </style>
+<meta charset="UTF-8">
+<title>🧠 Agent Catalog — Cache → Vector → LLM</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; padding: 20px; max-width: 960px; margin: 0 auto; color: #111; background-color: #fafafa; }
+  h1, h2, h3 { color: #2c3e50; }
+  h1 { font-size: 2.2em; margin-top: 0; }
+  h2 { font-size: 1.8em; margin-top: 2em; }
+  h3 { font-size: 1.4em; }
+  pre { background: #f6f8fa; padding: 10px; border-radius: 6px; overflow-x: auto; }
+  code { font-family: monospace; background-color: #eee; padding: 2px 4px; border-radius: 4px; }
+  table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+  table, th, td { border: 1px solid #ddd; }
+  th, td { padding: 10px; text-align: left; }
+  caption { font-weight: bold; margin-bottom: 0.5em; }
+  ul { margin: 0.5em 0 1em 1.5em; }
+  img { max-width: 100%; border: 1px solid #ddd; border-radius: 6px; }
+  blockquote { background: #fff3cd; padding: 10px 15px; border-left: 6px solid #ffeeba; border-radius: 4px; margin: 1em 0; }
+  hr { border: 0; border-top: 1px solid #ddd; margin: 2em 0; }
+</style>
 </head>
 <body>
 
 <h1>🧠 Agent Catalog</h1>
-
 <p><strong>Agent Catalog</strong> is a production-grade AI retrieval system enforcing <strong>deterministic decision-making</strong> across <strong>Cache → Vector Search → LLM fallback</strong>.</p>
-
 <p>It integrates <strong>Couchbase Vector Search</strong>, <strong>AWS Bedrock</strong>, and <strong>Streamlit</strong> to build explainable, auditable, and agent-ready AI pipelines.</p>
 
 <hr>
-
 <h2>✨ Key Features</h2>
 <ul>
   <li>🔁 Deterministic routing: Cache → Vector → LLM</li>
@@ -66,7 +39,6 @@
 </ul>
 
 <hr>
-
 <h2>🏗️ Architecture Overview</h2>
 <pre>
 User Question
@@ -92,7 +64,6 @@ Store + Return Answer
 </pre>
 
 <hr>
-
 <h2>⚙️ Configuration</h2>
 <ul>
   <li>Couchbase cluster & collections</li>
@@ -104,7 +75,6 @@ Store + Return Answer
 <blockquote>⚠️ Security note: Secrets should be moved to environment variables in production.</blockquote>
 
 <hr>
-
 <h2>🚀 Running Locally</h2>
 <pre><code>pip install -r requirements.txt
 streamlit run hash_agentcatalog.py</code></pre>
@@ -117,7 +87,6 @@ streamlit run hash_agentcatalog.py</code></pre>
 </ul>
 
 <hr>
-
 <h2>📊 Scoring Model</h2>
 <table>
   <caption>Score definitions</caption>
@@ -128,7 +97,6 @@ streamlit run hash_agentcatalog.py</code></pre>
 </table>
 
 <hr>
-
 <h2>🧪 Why This Matters</h2>
 <ul>
   <li>Prevent unnecessary LLM usage</li>
@@ -139,7 +107,6 @@ streamlit run hash_agentcatalog.py</code></pre>
 </ul>
 
 <hr>
-
 <h2>🧩 Agent-Ready Design</h2>
 <p>This system can be exposed as a <strong>tool</strong> to:</p>
 <ul>
@@ -155,31 +122,25 @@ streamlit run hash_agentcatalog.py</code></pre>
 </ul>
 
 <hr>
-
 <h2>📁 Project Structure</h2>
 <pre>
 hash_agentcatalog.py    # End-to-end pipeline + UI
 requirements.txt        # Python dependencies
 README.html             # This document
-images/                 # Pipeline diagram (PNG)
+pipeline-flow.png       # Image in same directory
 </pre>
 
 <hr>
-
 <h2>🔄 Decision Pipeline Flow</h2>
 <p>The diagram below illustrates request flow, with deterministic gates controlling when (and if) an LLM is invoked.</p>
-<div style="text-align:center; margin:30px 0;">
-  <img src="images/pipeline-flow.png" alt="Agent Catalog Decision Pipeline">
-</div>
+<img src="pipeline-flow.png" alt="Agent Catalog Decision Pipeline">
 <p><strong>Key principle:</strong> LLMs are used <em>only</em> when cheaper, deterministic retrieval layers fail to meet confidence thresholds.</p>
 
 <hr>
-
 <h2>📜 License</h2>
 <p>MIT License — use freely, responsibly, and visibly.</p>
 
 <hr>
-
 <h2>🙌 Credits</h2>
 <ul>
   <li>Couchbase Vector Search</li>
