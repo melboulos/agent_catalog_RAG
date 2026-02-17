@@ -14,19 +14,10 @@
       margin-right: auto;
       color: #111;
     }
-    h1, h2, h3 {
-      color: #2c3e50;
-    }
-    h1 {
-      font-size: 2.2em;
-    }
-    h2 {
-      font-size: 1.8em;
-      margin-top: 2em;
-    }
-    h3 {
-      font-size: 1.4em;
-    }
+    h1, h2, h3 { color: #2c3e50; }
+    h1 { font-size: 2.2em; }
+    h2 { font-size: 1.8em; margin-top: 2em; }
+    h3 { font-size: 1.4em; }
     pre {
       background: #f6f8fa;
       padding: 10px;
@@ -41,22 +32,10 @@
     table, th, td {
       border: 1px solid #ddd;
     }
-    th, td {
-      padding: 10px;
-      text-align: left;
-    }
-    caption {
-      font-weight: bold;
-      margin-bottom: 0.5em;
-    }
-    ul {
-      margin: 0.5em 0 1em 1.5em;
-    }
-    img {
-      max-width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-    }
+    th, td { padding: 10px; text-align: left; }
+    caption { font-weight: bold; margin-bottom: 0.5em; }
+    ul { margin: 0.5em 0 1em 1.5em; }
+    img { max-width: 100%; border: 1px solid #ddd; border-radius: 6px; }
     blockquote {
       background: #fff3cd;
       padding: 10px 15px;
@@ -68,7 +47,6 @@
 </head>
 
 <body>
-
 <h1>🧠 Agent Catalog</h1>
 
 <p>
@@ -77,10 +55,10 @@
 <strong>Cache → Vector Search → LLM fallback</strong>.
 </p>
 
-<p>
-It integrates <strong>Couchbase Vector Search</strong>, <strong>AWS Bedrock</strong>,
-and <strong>Streamlit</strong> to build explainable, auditable, and agent-ready AI pipelines.
-</p>
+<!-- rest of your content goes here -->
+</body>
+</html>
+
 
 <hr/>
 
