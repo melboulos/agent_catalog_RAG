@@ -43,20 +43,11 @@
     }
   </style>
 </head>
-
 <body>
+
 <h1>🧠 Agent Catalog</h1>
-
-<p>
-<strong>Agent Catalog</strong> is a production-grade AI retrieval system that enforces
-<strong>deterministic decision-making</strong> across
-<strong>Cache → Vector Search → LLM fallback</strong>.
-</p>
-
-<p>
-It integrates <strong>Couchbase Vector Search</strong>, <strong>AWS Bedrock</strong>,
-and <strong>Streamlit</strong> to build explainable, auditable, and agent-ready AI pipelines.
-</p>
+<p><strong>Agent Catalog</strong> is a production-grade AI retrieval system that enforces <strong>deterministic decision-making</strong> across <strong>Cache → Vector Search → LLM fallback</strong>.</p>
+<p>It integrates <strong>Couchbase Vector Search</strong>, <strong>AWS Bedrock</strong>, and <strong>Streamlit</strong> to build explainable, auditable, and agent-ready AI pipelines.</p>
 
 <hr/>
 
@@ -107,16 +98,13 @@ Store + Return Answer
   <li><strong>Score thresholds</strong></li>
   <li><strong>Retrieval depth (TOP_K)</strong></li>
 </ul>
-<blockquote>
-⚠️ <strong>Security note:</strong> Secrets should be moved to environment variables in production.
-</blockquote>
+<blockquote>⚠️ <strong>Security note:</strong> Secrets should be moved to environment variables in production.</blockquote>
 
 <hr/>
 
 <h2>🚀 Running Locally</h2>
 <pre><code>pip install -r requirements.txt
 streamlit run hash_agentcatalog.py</code></pre>
-
 <p>The UI provides:</p>
 <ul>
   <li>Top results table (Cache / Vector / LLM)</li>
@@ -139,7 +127,6 @@ streamlit run hash_agentcatalog.py</code></pre>
 <hr/>
 
 <h2>🧪 Why This Matters</h2>
-<p>This project demonstrates how to build <strong>controlled, explainable AI systems</strong>:</p>
 <ul>
   <li>Prevent unnecessary LLM usage</li>
   <li>Eliminate hallucinated authority</li>
@@ -151,7 +138,6 @@ streamlit run hash_agentcatalog.py</code></pre>
 <hr/>
 
 <h2>🧩 Agent-Ready Design</h2>
-<p>This system can be exposed as a <strong>tool</strong> to:</p>
 <ul>
   <li>LangChain agents</li>
   <li>Bedrock Agents</li>
@@ -177,18 +163,11 @@ images/                # Pipeline diagram (PNG)
 <hr/>
 
 <h2>🔄 Decision Pipeline Flow</h2>
-<p>The diagram below illustrates how every request flows through the system,
-with deterministic gates controlling when (and if) an LLM is invoked.</p>
-
+<p>The diagram below illustrates how every request flows through the system, with deterministic gates controlling when (and if) an LLM is invoked.</p>
 <div style="text-align:center; margin:30px 0;">
-  <img
-    src="pipeline-flow.png"
-    alt="Agent Catalog Decision Pipeline"
-  />
+  <img src="pipeline-flow.png" alt="Agent Catalog Decision Pipeline">
 </div>
-
-<p><strong>Key principle:</strong> LLMs are used <em>only</em> when cheaper, deterministic
-retrieval layers fail to meet confidence thresholds.</p>
+<p><strong>Key principle:</strong> LLMs are used <em>only</em> when cheaper, deterministic retrieval layers fail to meet confidence thresholds.</p>
 
 <hr/>
 
